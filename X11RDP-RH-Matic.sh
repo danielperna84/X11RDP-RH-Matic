@@ -61,6 +61,7 @@ INSTALL_XRDP=true   # install built package after build
 MAINTAINER=false    # maintainer mode
 IS_EL6=$([ "$(rpm --eval %{?rhel})" -le 6 ] && echo true || echo false)
 IS_EL7=$([ "$(rpm --eval %{?rhel})" -eq 7 ] && echo true || echo false)
+IS_EL8=$([ "$(rpm --eval %{?rhel})" -eq 8 ] && echo true || echo false)
 
 # substitutes
 XORGXRDPDEBUG_SUB="# "
@@ -70,6 +71,8 @@ XRDP_BASIC_BUILD_DEPENDS=$(<SPECS/xrdp.spec.in grep BuildRequires: | grep -v %% 
 XRDP_ADDITIONAL_BUILD_DEPENDS="libjpeg-turbo-devel fuse-devel"
 # xorg driver build dependencies
 if $IS_EL7; then
+	LIBXFONT_DEVEL=libXfont2-devel
+elif $IS_EL8; then
 	LIBXFONT_DEVEL=libXfont2-devel
 else
 	LIBXFONT_DEVEL=libXfont-devel
